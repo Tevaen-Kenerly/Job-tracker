@@ -1,0 +1,101 @@
+{%  extends 'base.html' %}
+{% block content %}
+<form action='{{  url_for('logout') }}' method='post' class='logout-form'>
+    <button type='submit' class='logout-button'>Logout</button>
+</form>
+<form action='{{ url_for ('dashboard') }}' method= 'get' class='dashboard-form'>
+<button type='submit' class='dashboard-button'>Dashboard</button>
+</form>
+<div class='search-bar'>
+<form method='GET' action='{{ url_for('filter') }}'>
+<input type='text' name='company' placeholder='Search by company'>
+<input type='text' name='role' placeholder='Search by role'>
+<input type='text' name='status' placeholder='Search by status'>
+</form>
+</div>
+<form method='POST' action='{{ url_for('index') }}' enctype='multipart/form-data'>
+    <input name='company' placeholder='Company' class='job-input'>
+    <input name='role' placeholder='Role' class='job-input'>
+    <input name='status' placeholder='Status'  class='job-input'>
+    <textarea name='notes' placeholder='Notes' class='job-input'></textarea>
+    <input type='file' name='resume'>
+    <button type='submit'>Add Job</button>
+
+</form>
+    <style>
+    .logout-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 10px 15px;
+        background-color: #333;
+        color: white;
+        border-radius: 5px;
+        text-decoration:none;
+        font-weight: bold;
+        display: inline-block;
+        }
+    .dashboard-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 10px 15px;
+        background-color: #333;
+        color: white;
+    }
+    .upload-section {
+        position: absolute;
+        top: 60px;
+        left: 10px;
+    }
+    .upload-section form {
+        display: flex;
+        gap: 5px;
+    }
+    .search-bar {
+        postion: relative;
+        top: 0;
+        margin: 20px auto;
+        text-align: center;
+        padding: 10px;
+        background-color: black;
+        border-bottom: 2px solid #ccc;
+        width: 100%;
+    }
+    .search-bar form input,
+    .search-bar form button {
+        padding:8px 12px;
+        margin: 5px;
+        font-size: 16px;
+        border: 1px solid #999;
+        border-radius: 4px;
+    }
+    .job-input {
+        width: 150px;
+        height: 32px;
+        padding: 5px 10px;
+        font-size: 14px;
+        border: 1px solid black;
+        border-radius: 4px;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+textarea.job-input {
+    resize:none;
+    overflow: hidden;
+    line-height: 30px;
+}
+    </style>
+
+<ul>
+    {% for job in jobs %}
+    <li>
+        {{  job.company }} - {{ job.role }} - {{ job.status }}
+        <form action="{{ url_for('delete',id=job.id) }}" method="POST" style="display: inline;">
+        </form>
+    </li>
+ {%  else %}
+        <li>No Jobs added yet</li>
+    {% endfor %}
+</ul>
+{% endblock %}

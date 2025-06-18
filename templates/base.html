@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <meta charset="UTF-8">
+    <title>Job Tracker</title>
+    <style>
+    body {
+        background-color: lightgrey;
+        text-align: center;
+        font-size: 24px;
+        position: relative;
+    }
+    h1 { color: black;
+    }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<h1>Job Tracker</h1>
+
+{%block content%}
+{%endblock %}
+</body>
+</html>

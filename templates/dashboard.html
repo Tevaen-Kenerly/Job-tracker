@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action='{{ url_for('index') }}' method='get' class='back-form'>
+    <button type='submit' class='back-button'>Back</button>
+</form>
+<h2>Analytics Dashboard</h2>
+<p>Total Jobs: {{ total_jobs }}</p>
+
+<h3>Status Breakdown</h3>
+<canvas id='statusChart' class='chart-canvas'> </canvas>
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+<script>
+const statusLabels = {{ status_counts.keys()|list|tojson }};
+const statusData = {{ status_counts.values()|list|tojson }};
+const ctx = document.getElementById('statusChart').getContext('2d');
+const chart = new Chart(ctx, {
+    type:'pie',
+    data: {
+        labels: statusLabels,
+        datasets: [{
+            label: 'Jobs by Status',
+            data: statusData,
+            backgroundColor: [
+                'rgba(54,162,235,0.6)',
+                'rgba(255,99,132,0.6)',
+                'rgba(255,206,86,0.6)'
+            ],
+            borderColor: [
+                'rgba(54,162,235,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,206,86,1)',
+                'rgba(75,192,192,1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+<ul>
+    {%  for status, count in status_counts.items() %}
+        <li>{{ status }}:{{ count }}</li>
+    {% endfor %}
+</ul>
+<h3> Uploaded Files </h3>
+<ul>
+    {%  for job in jobs %}
+        <li>
+            {{ job.company }} - {{ job.role }} - {{ job.status }}
+            {% if job.resume %}
+              <a href='{{ url_for('static', filename='uploads/' ~ job.resume) }}' target='_blank'>View Resume</a>
+            {% else %}
+              No resume uploaded
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
