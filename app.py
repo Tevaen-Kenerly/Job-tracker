@@ -22,4 +22,3 @@ if __name__ == '__main__':
         db.create_all() #Creates all database tables
     app.run(debug=True)
 
-app=app

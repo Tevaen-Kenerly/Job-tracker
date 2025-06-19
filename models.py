@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from flask_login import UserMixin
-from main import db
+from app import db
 
 #Stores user info for login
 
